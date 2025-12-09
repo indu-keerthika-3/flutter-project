@@ -29,7 +29,7 @@ class _FlowerListScreenState extends State<FlowerListScreen>
 
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-  String _sortBy = 'name';
+  final String _sortBy = 'name';
   List<Flower> _filteredFlowers = [];
 
   @override
