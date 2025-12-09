@@ -1,0 +1,63 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class DogPage extends StatefulWidget {
+  const DogPage({super.key});
+
+  @override
+  State<DogPage> createState() => _DogPageState();
+}
+
+class _DogPageState extends State<DogPage> {
+
+  String imageLink = "https://images.dog.ceo//breeds//havanese//00100trPORTRAIT_00100_BURST20191030212452971_COVER.jpg";
+
+  Future fetchData() async{
+    var response =await http.get(Uri.parse('https://dog.ceo/api/breeds/image/random'));
+    var data = jsonDecode(response.body);
+    print(data['message']);
+   setState(() {
+      imageLink = data['message'];
+   });
+    // print(response.body);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Column(
+          children: [
+            Text("Random Dogs Images 🐶",style: TextStyle(color: Colors.white),),
+            SizedBox(height: 10,),
+            Container(
+              height: 400,
+              width: 400,
+              decoration: BoxDecoration(
+                image: DecorationImage(image: NetworkImage(imageLink),fit: BoxFit.cover),
+                border: Border.all(width: 2,color: Colors.white)
+              ),
+            ),
+            SizedBox(height: 15,),
+            GestureDetector(
+              onTap: fetchData,
+              child: Container(
+                width: 200,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.indigo,
+                  border: Border.all(width: 2, color: Colors.grey)
+                ),
+                child: Center(child: Text("Reload Dog Image ",style: TextStyle(color: Colors.white),),),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
